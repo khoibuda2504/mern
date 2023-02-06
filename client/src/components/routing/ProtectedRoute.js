@@ -4,19 +4,15 @@ import { AuthContext } from '../../contexts/AuthContext'
 import Spinner from 'react-bootstrap/Spinner'
 
 
-const ProtectedRoute = ({ element: Component, ...rest }) => {
+const ProtectedRoute = ({ children }) => {
   const { authState: { authLoading, isAuthenticated } } = useContext(AuthContext)
-  // if (authLoading) {
-  //   return <div className='spinner-container'>
-  //     <Spinner variant='info' animation='border' />
-  //   </div>
-  // }
+  if (authLoading) {
+    return <div className='spinner-container'>
+      <Spinner variant='info' animation='border' />
+    </div>
+  }
   return (
-    <React.Fragment>
-      <Route {...rest} element={
-        isAuthenticated ? <Component {...rest} /> : <Navigate to='/login' />
-      } />
-    </React.Fragment>
+    isAuthenticated ? children : <Navigate to='/login' />
   )
 }
 

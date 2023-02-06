@@ -13,8 +13,9 @@ function App(props) {
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/login' element={<Auth {...props} authRoute='login' />} />
           <Route exact path='/register' element={<Auth {...props} authRoute='register' />} />
-          {/* <Route exact path='/dashboard' element={<Dashboard />} /> */}
-          <ProtectedRoute exact path='/dashboard' element={<Dashboard />} />
+          <Route exact path='/dashboard' element={<ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>} />
         </Routes>
       </Router>
     </AuthContextProvider>
