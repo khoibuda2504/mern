@@ -1,12 +1,13 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useState, useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
+import AlertMessage from '../layout/AlertMessage'
 const LoginForm = () => {
   const { loginUser } = useContext(AuthContext)
-  const navigate = useNavigate()
+  const [alert, setAlert] = useState(null)
   const [loginForm, setLoginForm] = useState({
     username: '',
     password: ''
@@ -23,8 +24,12 @@ const LoginForm = () => {
     e.preventDefault()
     try {
       const loginData = await loginUser(loginForm)
-      if (loginData.success) {
-        navigate('/dashboard')
+      if (!loginData.success) {
+        setAlert({ type: 'danger', message: loginData.message })
+        const timeout = setTimeout(() => {
+          setAlert(null)
+          setTimeout(timeout)
+        }, 2000)
       }
     } catch (error) {
       console.log(error)
@@ -34,6 +39,7 @@ const LoginForm = () => {
   return (
     <>
       <Form className='my-4' onSubmit={login}>
+        <AlertMessage info={alert} />
         <Form.Group className='mb-3'>
           <Form.Control type='text' placeholder='Username' name='username' required value={username} onChange={onChangeLoginForm} />
         </Form.Group>

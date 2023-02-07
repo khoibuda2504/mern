@@ -19,7 +19,6 @@ const Auth = ({ authRoute }) => {
   } else {
     body = (
       <>
-        LearnIt
         {authRoute === 'login' && <LoginForm />}
         {authRoute === 'register' && <RegisterForm />}
       </>
