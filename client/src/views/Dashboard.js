@@ -11,10 +11,11 @@ import { PostContext } from '../contexts/PostContext'
 import { AuthContext } from '../contexts/AuthContext'
 import SinglePost from '../components/posts/SinglePost'
 import AddPostModal from '../components/posts/AddPostModal'
+import UpdatePostModal from '../components/posts/UpdatePostModal'
 import addIcon from '../assets/plus-circle-fill.svg'
 
 const Dashboard = () => {
-  const { authState: { user: { username } } } = useContext(AuthContext)
+  const { authState } = useContext(AuthContext)
   const { postState: { posts, postLoading }, getPosts, setShowAddPostModal,
     showToast: { show, message, type },
     setShowToast
@@ -33,14 +34,14 @@ const Dashboard = () => {
     body = (
       <Card className='text-center mx-5 my-5'>
         <Card.Header as='h1'>
-          Hi {username}
+          Hi {authState?.user?.username}
         </Card.Header>
         <Card.Body>
           <Card.Title>Welcome to LearnIt</Card.Title>
           <Card.Text>
             Click the button below to track your first skill to learn
           </Card.Text>
-          <Button variant='primary'>LearnIt!</Button>
+          <Button variant='primary' onClick={() => setShowAddPostModal(true)}>LearnIt!</Button>
         </Card.Body>
       </Card>
     )
@@ -66,7 +67,7 @@ const Dashboard = () => {
     <>
       {body}
       <AddPostModal />
-      {/* After post is added, show toast */}
+      <UpdatePostModal />
       <Toast show={show} style={{ position: 'fixed', top: '20%', right: '10px' }} className={`bg-${type} text-white`}
         onClose={() => setShowToast({
           show: false,

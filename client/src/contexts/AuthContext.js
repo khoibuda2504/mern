@@ -30,6 +30,7 @@ const AuthContextProvider = ({ children }) => {
     try {
       const response = await axios.post(`${apiUrl}/auth/register`, registerForm)
       if (response.data.success) {
+        localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.accessToken)
         dispatch({ type: "SET_AUTH", payload: { isAuthenticated: true, user: response.data.user } })
         await loadUser()
         return response.data

@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form'
 import { PostContext } from '../../contexts/PostContext'
 
 const AddPostModal = () => {
-  const { showAddPostModal, setShowAddPostModal,addPost } = useContext(PostContext)
+  const { showAddPostModal, setShowAddPostModal, addPost, setShowToast } = useContext(PostContext)
 
   const [newPost, setNewPost] = useState({
     title: '',
@@ -18,8 +18,13 @@ const AddPostModal = () => {
 
   const onSubmit = async e => {
     e.preventDefault()
-    const {success, message} = await addPost(newPost)
+    const { success, message } = await addPost(newPost)
     resetAddPostData()
+    setShowToast({
+      show: true,
+      message,
+      type: success ? 'success' : 'danger'
+    })
   }
   const resetAddPostData = () => {
     setNewPost({
